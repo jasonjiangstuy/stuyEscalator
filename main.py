@@ -7,13 +7,12 @@ app.config.update(TEMPLATES_AUTO_RELOAD=True)
 from google.cloud import datastore
 
 def resetMaindata():
-    key = client.key('Escalaters')
     mainData = datastore.Entity(
-      key, exclude_from_indexes=['created'])
+      exclude_from_indexes=['created', 'purpose'])
     default = (False, False)
     mainData.update({
         'created': datetime.datetime.utcnow(),
-        
+        'purpose': 'status',
         # up down
         '23': default,
         '24': ('N/A'),
@@ -26,7 +25,6 @@ def resetMaindata():
         # ,'done': False
     })
     client.put(mainData)
-    return mainData.key
 
 #on startup 
 def create_client(project_id):
@@ -35,20 +33,27 @@ def create_client(project_id):
 client = create_client('jasontestingke')
 mainkey = resetMaindata()
 
-def changeStatus(task_id):
-    with client.transaction():
-        key = client.key('Escalaters', task_id)
-        data = client.get(key)
+def changeStatus(key, value):
+  query = client.query()
+  result = query.add_filter('purpose', '=', 'status').fetch()
+  if not data:
+      raise ValueError(
+          'Database does not exist.')
 
-        if not data:
-            raise ValueError(
-                'Database {} does not exist.'.format(task_id))
+  result[key] = value
 
-        task['done'] = True
+  client.put(result) 
 
-        client.put(task)  
 def listWorking(): # get the set of working a not working escalators
-  pass 
+  query = client.query()
+  result = query.add_filter('purpose', '=', 'status').fetch()
+  if not result:
+      raise ValueError(
+          'Database does not exist.')
+  return sorted(result.items())
+    
+
+  
 
 
 
