@@ -31,11 +31,11 @@ def resetMaindata():
 #on startup 
 def create_client(project_id):
     return datastore.Client(project_id)
-    
-client = create_client('jasontestingke')
-maininfo = resetMaindata()
 
-def changeStatus(client, task_id):
+client = create_client('jasontestingke')
+mainkey = resetMaindata()
+
+def changeStatus(task_id):
     with client.transaction():
         key = client.key('Escalaters', task_id)
         data = client.get(key)
@@ -52,8 +52,9 @@ def listWorking(): # get the set of working a not working escalators
 
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def home():
+  
   rulebook = listWorking()
   return render_template(
     # 'index.html', rulebook= 
