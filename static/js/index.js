@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    console.log('jquery working')
+})
+
 $('#submit').click(function (){
 	var sendRequest = true;
     const target = $('#escalator').val();
@@ -14,7 +18,7 @@ $('#submit').click(function (){
         }
       };
       return temp
-    });
+    })();
     // ();
     
     // const curFirst = $('#cfirstname').val();
@@ -42,21 +46,28 @@ $('#submit').click(function (){
 
     if (newFirst != curFirst && newFirst != "" && newFirst != undefined){
         console.log('form includes first');
-        sendRequest = true;
+        if (sendRequest){
+            sendRequest = false;
+        }
+
         fd.append('newFirst', "true");
     }else {
         fd.append('newFirst', "false");
     }
     if (newLast != curLast && newLast != "" && newLast != undefined){
         console.log('form includes last');
-        sendRequest = true;
+        if (sendRequest){
+            sendRequest = false;
+        }
         fd.append('newLast', "true");
     }else {
         fd.append('newLast', "false");
     }
     if (newprofilepic != undefined){
         console.log('form includes pic 2,0');
-        sendRequest = true;
+        if (sendRequest){
+            sendRequest = false;
+        }
         fd.append('newPFP', "true");
     }else {
         fd.append('newPFP', "false");
@@ -88,10 +99,7 @@ $('#submit').click(function (){
         alert("Not all forms are filled canceling request");
     }
 
-				//
-				//
-				// var form = $('#toGCS')[0]
-				// var GCS = new FormData(form)
+
 
 
   });
