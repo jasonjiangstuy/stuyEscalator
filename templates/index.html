@@ -3,25 +3,56 @@
     <head>
       <title> Stuy Escalator </title> 
       <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
-      
+          <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/index.js')}}"></script>
     </head>
     <body>
-
+        
+    <center>
       <table> 
 
-
+          {% for i in rulebook %}
         <tr>
           <td>
-            2 - 3 
+            {{i[0]}}
           </td>
           <td>
-           Up: <!-- fill in later -->
+           Up: {{i[1]}}
           </td>
           <td>
-           Down: <!-- fill in later -->
+           Down: {{i[2]}}
           </td>
         </tr>
+        {% endfor %}
 
             
       </table>
+
+
+
+        <!-- form -->
+
+            <div class="form">
+            <form class="edit-form">
+                <select id='escalator'/>
+                    <option value=""> -- Choose the faulty escalator -- </option>
+
+                    <option value="23"> 2 to 3 </option>
+                    <option value="24" disabled> 2 to 4 </option>
+                    <option value="35"> 3 to 5 </option>
+                    <option value="46"> 4 to 6 </option>
+                    <option value="57"> 5 to 7 </option>
+                    <option value="68"> 6 to 8 </option>
+                    <option value="79"> 7 to 9 </option>
+                </select>
+                <span> Which direction is not working </span>
+                <input type="checkbox" class="wDirection" name="Up" value="False">
+                <input type="checkbox" class="wDirection" name="Down" value="False">
+                <button id="register_submit" type="button" name="register_submit">Submit</button>
+            </form>
+            </div>
+
+    </center>
+
     </body>
